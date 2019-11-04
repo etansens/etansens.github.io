@@ -1,5 +1,10 @@
 ---
 title: Hello World
+categories:
+- Blog
+tags:
+- hexo
+- mellow
 ---
 <div align="center">
 开博立贴
