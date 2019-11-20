@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    
+    
+    <title>Kafka Producer Test | Tee&#39;s Blog | 好学近乎知，力行近乎仁，知耻近乎勇</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="java,kafka">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/css/style.css?v=1.4.4">
+    
+    <script type="text/javascript">
+        // Data Center
+        var DC = {
+            reward:	false,
+            lv: JSON.parse('{"enable":false,"app_id":null,"app_key":null,"icon":true}'),
+            v: JSON.parse('{"enable":false,"appid":null,"appkey":null,"notify":true,"verify":true,"placeholder":"give me some sugers plz...","avatar":"wavatar"}'),
+            g: JSON.parse('{"enable":false,"lazy":true,"owner":"codefine","repo":"gitment","oauth":{"client_id":null,"client_secret":null},"perPage":10}'),
+            d: JSON.parse('{"app_id":null}')
+        };
+    </script>
+    <script type="text/javascript">
+        window.lazyScripts=[];
+    </script>
+    
+</head>
+
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-angle-double-left"></i>
+    </a>
+    <div class="brand-wrap">
+      
+      <img src="/img/brand.jpg" class="brand-bg">
+      
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">Tee</h5>
+        </hgroup>
+        
+        <ul class="menu-link">
+          
+              <li>
+                <a href="https://github.com/etansens/" target="_blank">
+                  <i class="icon icon-lg icon-github"></i>
+                </a>
+              </li>
+            
+        </ul>
+        
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                HOME
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                CATEGORIES
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                TAGS
+              </a>
+            </li>
+        
+            <li class="">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                ARCHIVES
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row clearfix">
+        <a href="javascript:;" class="header-icon pull-left waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">
+            <span>Kafka Producer Test</span>
+            
+        </div>
+        
+        <a href="javascript:;" id="site_search_btn" class="header-icon pull-right waves-effect waves-circle waves-light">
+            <i class="icon icon-lg icon-search"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+    <img src="/img/banner.jpg" class="header-bg">
+    <div class="container fade-scale">
+        <h1 class="title">Kafka Producer Test</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-20T07:38:41.000Z" itemprop="datePublished" class="page-time">
+  2019-11-20
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/大数据/">大数据</a></li></ul>
+
+            
+        </h5>
+        
+    </div>
+    
+
+</header>
+
+<div id="site_search">
+    <div class="search-title clearfix">
+        <span class="pull-left">
+          <i class="icon icon-lg icon-search"></i>
+        </span>
+        <input type="text" id="local-search-input" name="q" results="0" placeholder="search my blog..." class="form-control pull-left"/>
+        <a href="javascript:;" class="close pull-right waves-effect waves-circle waves-light">
+          <i class="icon icon-lg icon-close"></i>
+        </a>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+
+
+<div class="container body-wrap">
+    <article id="post-Kafka-Producer-Test"
+  class="post-article article-type-post" itemprop="blogPost">
+    <div class="post-card">
+        <h1 class="post-card-title">Kafka Producer Test</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-20 15:38:41" datetime="2019-11-20T07:38:41.000Z"  itemprop="datePublished">2019-11-20</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/大数据/">大数据</a></li></ul>
+
+
+
+            
+
+            
+
+
+            
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            
+            <h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>5<em>(24 core, 64G men, 1T</em>12 disk)<br>CentOS6.5<br>JDK1.8.0_91<br>kafka_2.11-1.0.0<br>brokers:<br>export KAFKA_HEAP_OPTS=”-Xmx8G -Xms8G”<br>default.replication.factor = 2<br>num.io.threads = 16<br>num.network.threads = 8<br>num.replica.fetchers = 2<br>mun.partitions = 30</p>
+<h2 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h2><p>测试服务端变动情况下生产者的运行情况及数据表现<br>考察重试机制，批量模式<br>case 0: Preferred Replica Election<br>case 1: Reassign Partitions<br>case 2: Add Partitions<br>case 3: Broker Down<br>case 4: Add Broker</p>
+<h2 id="Producer配置"><a href="#Producer配置" class="headerlink" title="Producer配置"></a>Producer配置</h2><h3 id="producer0-默认配置"><a href="#producer0-默认配置" class="headerlink" title="producer0:默认配置"></a>producer0:默认配置</h3><p>bin/kafka-producer-perf-test.sh <br>–topic test <br>–num-records 6000 –record-size 100 –throughput 100 <br>–print-metrics <br>–producer-props bootstrap.servers=10.31.33.21:6667,10.31.33.23:6667,10.31.33.25:6667</p>
+<h3 id="producer1-增加重试"><a href="#producer1-增加重试" class="headerlink" title="producer1: 增加重试"></a>producer1: 增加重试</h3><p>bin/kafka-producer-perf-test.sh <br>–topic test <br>–num-records 6000 –record-size 100 –throughput 100 <br>–print-metrics <br>–producer-props bootstrap.servers=10.31.33.21:6667,10.31.33.23:6667,10.31.33.25:6667 <br>retries=3 <br>retry.backoff.ms=1000</p>
+<h2 id="测试过程"><a href="#测试过程" class="headerlink" title="测试过程"></a>测试过程</h2><h3 id="case0-producer0"><a href="#case0-producer0" class="headerlink" title="case0-producer0:"></a>case0-producer0:</h3><p>现象：日志报错<br>org.apache.kafka.common.errors.NotLeaderForPartitionException: This server is not the leader for that topic-partition.<br>结论：数据丢失</p>
+<h3 id="case0-producer1"><a href="#case0-producer1" class="headerlink" title="case0-producer1:"></a>case0-producer1:</h3><p>现象：<br>[2019-11-20 13:56:51,637] WARN [Producer clientId=producer-1] Got error produce response with correlation id 560 on topic-partition test-9, retrying (2 attempts left). Error: NOT_LEADER_FOR_PARTITION (org.apache.kafka.clients.producer.internals.Sender)<br>结论：正常</p>
+<h3 id="case1-producer0"><a href="#case1-producer0" class="headerlink" title="case1-producer0:"></a>case1-producer0:</h3><p>现象：日志报错<br>[2019-11-19 15:49:00,959] WARN [Producer clientId=producer-1] Received unknown topic or partition error in produce request on partition test-11. The topic/partition may not exist or the user may not have Describe access to it (org.apache.kafka.clients.producer.internals.Sender)<br>org.apache.kafka.common.errors.UnknownTopicOrPartitionException: This server does not host this topic-partition.<br>[2019-11-19 15:49:01,030] WARN [Producer clientId=producer-1] Received unknown topic or partition error in produce request on partition test-16. The topic/partition may not exist or the user may not have Describe access to it (org.apache.kafka.clients.producer.internals.Sender)<br>org.apache.kafka.common.errors.NotLeaderForPartitionException: This server is not the leader for that topic-partition.<br>result：数据丢失</p>
+<h3 id="case1-producer1"><a href="#case1-producer1" class="headerlink" title="case1-producer1:"></a>case1-producer1:</h3><p>数据少量丢失</p>
+<h3 id="case2-producer0，case2-producer1"><a href="#case2-producer0，case2-producer1" class="headerlink" title="case2-producer0，case2-producer1:"></a>case2-producer0，case2-producer1:</h3><p>需要重启producer,才能往新partition写数据</p>
+<h3 id="case3-producer0"><a href="#case3-producer0" class="headerlink" title="case3-producer0:"></a>case3-producer0:</h3><p>[2019-11-20 15:16:11,922] WARN [Producer clientId=producer-1] Got error produce response with correlation id 11898 on topic-partition test-12, retrying (4 attempts left). Error: NOT_LEADER_FOR_PARTITION (org.apache.kafka.clients.producer.internals.Sender)<br>[2019-11-20 15:16:12,234] WARN [Producer clientId=producer-1] Connection to node 1001 could not be established. Broker may not be available. (org.apache.kafka.clients.NetworkClient)<br>丢失数据</p>
+<h3 id="case3-producer1"><a href="#case3-producer1" class="headerlink" title="case3-producer1:"></a>case3-producer1:</h3><p>丢失少量数据</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>尽力避免导致分区重分配的操作，暂停producer进行操作</p>
+<h2 id="kafka-工具应用"><a href="#kafka-工具应用" class="headerlink" title="kafka 工具应用"></a>kafka 工具应用</h2><h3 id="分区重新分布，可用于增加、减少副本数，重新均衡分区分布；慎用，会导致producer丢失数据"><a href="#分区重新分布，可用于增加、减少副本数，重新均衡分区分布；慎用，会导致producer丢失数据" class="headerlink" title="分区重新分布，可用于增加、减少副本数，重新均衡分区分布；慎用，会导致producer丢失数据"></a>分区重新分布，可用于增加、减少副本数，重新均衡分区分布；慎用，会导致producer丢失数据</h3><p>bin/kafka-reassign-partitions.sh –zookeeper 10.31.33.29:2181 –reassignment-json-file rap.json –execute<br>{“version”:1,<br>“partitions”:[{“topic”:”test”,”partition”:0,”replicas”:[0,1,2]}]}</p>
+<h3 id="触发leader选举"><a href="#触发leader选举" class="headerlink" title="触发leader选举"></a>触发leader选举</h3><p>bin/kafka-preferred-replica-election.sh –zookeeper 10.31.33.29:2181 –path-to-json-file ./pre.json<br>{<br> “partitions”:<br>  [<br>    {“topic”: “test”, “partition”: 0}<br>  ]<br>}</p>
+
+        </div>
+        
+<blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2019-11-20T07:42:58.600Z" itemprop="dateUpdated">2019-11-20 15:42:58</time>
+</span><br>
+
+
+        
+    </div>
+    <footer>
+        <a href="https://etansens.github.io">
+            <img src="/img/avatar.jpg" alt="Tee">
+            Tee
+        </a>
+    </footer>
+</blockquote>
+
+        
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kafka/">kafka</a></li></ul>
+
+            <div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://etansens.github.io/2019/11/20/Kafka-Producer-Test/&title=《Kafka Producer Test》 — Tee's Blog&pic=https://etansens.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://etansens.github.io/2019/11/20/Kafka-Producer-Test/&title=《Kafka Producer Test》 — Tee's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+        </div>
+        
+            
+
+
+        
+    </div>
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="next">
+      <a href="/2019/11/01/记一次RESTAPI应用崩溃复盘/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">记一次RESTAPI应用崩溃复盘</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+    
+    
+        <aside class="post-widget">
+            <nav class="post-toc-wrap" id="post-toc">
+                <strong>CONTENTS</strong>
+                <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#环境配置"><span class="post-toc-number">1.</span> <span class="post-toc-text">环境配置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#测试用例"><span class="post-toc-number">2.</span> <span class="post-toc-text">测试用例</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Producer配置"><span class="post-toc-number">3.</span> <span class="post-toc-text">Producer配置</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#producer0-默认配置"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">producer0:默认配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#producer1-增加重试"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">producer1: 增加重试</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#测试过程"><span class="post-toc-number">4.</span> <span class="post-toc-text">测试过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#case0-producer0"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">case0-producer0:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#case0-producer1"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">case0-producer1:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#case1-producer0"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">case1-producer0:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#case1-producer1"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">case1-producer1:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#case2-producer0，case2-producer1"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">case2-producer0，case2-producer1:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#case3-producer0"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">case3-producer0:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#case3-producer1"><span class="post-toc-number">4.7.</span> <span class="post-toc-text">case3-producer1:</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">5.</span> <span class="post-toc-text">总结</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#kafka-工具应用"><span class="post-toc-number">6.</span> <span class="post-toc-text">kafka 工具应用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#分区重新分布，可用于增加、减少副本数，重新均衡分区分布；慎用，会导致producer丢失数据"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">分区重新分布，可用于增加、减少副本数，重新均衡分区分布；慎用，会导致producer丢失数据</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#触发leader选举"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">触发leader选举</span></a></li></ol></li></ol>
+            </nav>
+            <div class="toc-bar"><div>
+        </aside>
+    
+</article>
+
+
+</div>
+
+    </main>
+    <footer class="footer fixed">
+    
+    <div class="bottom">
+        <p>
+            <span>
+                Tee &copy; 2019
+            </span>
+        		
+           	
+            
+            
+            <span>
+	            Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/codefine/hexo-theme-mellow" target="_blank">mellow</a>
+            </span>
+            
+            
+            
+
+            
+                
+<span class="site-uv" title="总访客量">
+    <i class="icon icon-user"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"></i>
+</span>
+
+
+<span class="site-pv" title="总访问量">
+    <i class="icon icon-eye"></i>
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"></i>
+</span>
+
+            
+        </p>
+    </div>
+</footer>
+
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://etansens.github.io/2019/11/20/Kafka-Producer-Test/&title=《Kafka Producer Test》 — Tee's Blog&pic=https://etansens.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://etansens.github.io/2019/11/20/Kafka-Producer-Test/&title=《Kafka Producer Test》 — Tee's Blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACNUlEQVR42u3aQW7DMAwF0dz/0u62QBJnPqkEEDVeFbFr6XlBkCIfD3xd/67a78/PPP/+7m3LLhkyZGzLuG4vssD97/zN/O6LFWXIkHEAg4TCd8/fP0k2St72Yc8yZMiQ0U7+7sM3R8qQIUNGyuDb5R9FhgwZMjpFbBpGSZlKGItrcRkyZGzI4Kfuv//7K/0NGTJkbMW4wqvT4ExTw2BXMmTIGM3gAW7VUAVPEOP9yJAh4wAGOSarDXiRYE0+Vjy5JkOGjHGMTpJXOywjiSMZ45AhQ8ZsBn8pv1srX3mj9MVdGTJkjGbwgMubBLW7tVVkyJBxJqM/HIZGuHDJGgxYyJAhYyijf0BfaySsOmh7keHKkCFjNIOPWaRBlo9ZFNNQGTJkjGZ0eoJp47PGI80JGTJkzGbwhXnTsUZqDVvIkCFjNCM93uLtTD6oQd7cmhmRIUPG5oziHFmjeclDaiuHlSFDxjGMVaGzNnjBE0oZMmTMZpAylQxy8cCdHuoFLQEZMmQcwKgNUvC2ImkkpJ/jbS0uQ4aMoYzOGAQPwZ1xjQ/hW4YMGQcw+svwcFyc/khTQxkyZIxgXOHF2XyjfLwMJYUyZMgYx+gUrv0w/Y3GqgwZMqYy0iBbu8uL4TRYy5Ah4xxGemTG07u0DbCsFpchQ8bBDN6q5KUvaUt8oMqQIUNGuCRPIjsldCs1lCFDxoYMkrrFhSX4Xz5ktuy4TYYMGRsyeMhLj894EcuHP1qNTBkyZOzH+AP1ZPoIyGA3sQAAAABJRU5ErkJggg==" alt="微信分享二维码">
+</div>
+
+
+    
+    <!-- main-js -->
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="/js/plugins/fastclick.js?v=1.4.4"></script>
+<script type="text/javascript" src="/js/plugins/ios-orientationchange-fix.js?v=1.4.4"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+
+<script type="text/javascript" src="/js/method.js?v=1.4.4"></script>
+<script type="text/javascript" src="/js/blog.js?v=1.4.4"></script>
+
+<!-- third-party -->
+
+
+
+
+
+
+<script type="text/javascript" src="/js/plugins/local_search.js?v=1.4.4"></script>
+<script type="text/javascript">
+	var search_path = "search.xml";
+	if (search_path.length === 0) {
+		search_path = "search.xml";
+	}
+	var path = "/" + search_path;
+	searchFunc(path, "local-search-input", "local-search-result");
+</script>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+
+
+
+
+
+    <!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
+
+
+    
+</body>
+</html>

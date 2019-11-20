@@ -3,6 +3,42 @@
   
     
     <entry>
+      <title><![CDATA[Kafka Producer Test]]></title>
+      <url>/2019/11/20/Kafka-Producer-Test/</url>
+      <content type="html"><![CDATA[<h2 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h2><p>5<em>(24 core, 64G men, 1T</em>12 disk)<br>CentOS6.5<br>JDK1.8.0_91<br>kafka_2.11-1.0.0<br>brokers:<br>export KAFKA_HEAP_OPTS=”-Xmx8G -Xms8G”<br>default.replication.factor = 2<br>num.io.threads = 16<br>num.network.threads = 8<br>num.replica.fetchers = 2<br>mun.partitions = 30</p>
+<h2 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h2><p>测试服务端变动情况下生产者的运行情况及数据表现<br>考察重试机制，批量模式<br>case 0: Preferred Replica Election<br>case 1: Reassign Partitions<br>case 2: Add Partitions<br>case 3: Broker Down<br>case 4: Add Broker</p>
+<h2 id="Producer配置"><a href="#Producer配置" class="headerlink" title="Producer配置"></a>Producer配置</h2><h3 id="producer0-默认配置"><a href="#producer0-默认配置" class="headerlink" title="producer0:默认配置"></a>producer0:默认配置</h3><p>bin/kafka-producer-perf-test.sh <br>–topic test <br>–num-records 6000 –record-size 100 –throughput 100 <br>–print-metrics <br>–producer-props bootstrap.servers=10.31.33.21:6667,10.31.33.23:6667,10.31.33.25:6667</p>
+<h3 id="producer1-增加重试"><a href="#producer1-增加重试" class="headerlink" title="producer1: 增加重试"></a>producer1: 增加重试</h3><p>bin/kafka-producer-perf-test.sh <br>–topic test <br>–num-records 6000 –record-size 100 –throughput 100 <br>–print-metrics <br>–producer-props bootstrap.servers=10.31.33.21:6667,10.31.33.23:6667,10.31.33.25:6667 <br>retries=3 <br>retry.backoff.ms=1000</p>
+<h2 id="测试过程"><a href="#测试过程" class="headerlink" title="测试过程"></a>测试过程</h2><h3 id="case0-producer0"><a href="#case0-producer0" class="headerlink" title="case0-producer0:"></a>case0-producer0:</h3><p>现象：日志报错<br>org.apache.kafka.common.errors.NotLeaderForPartitionException: This server is not the leader for that topic-partition.<br>结论：数据丢失</p>
+<h3 id="case0-producer1"><a href="#case0-producer1" class="headerlink" title="case0-producer1:"></a>case0-producer1:</h3><p>现象：<br>[2019-11-20 13:56:51,637] WARN [Producer clientId=producer-1] Got error produce response with correlation id 560 on topic-partition test-9, retrying (2 attempts left). Error: NOT_LEADER_FOR_PARTITION (org.apache.kafka.clients.producer.internals.Sender)<br>结论：正常</p>
+<h3 id="case1-producer0"><a href="#case1-producer0" class="headerlink" title="case1-producer0:"></a>case1-producer0:</h3><p>现象：日志报错<br>[2019-11-19 15:49:00,959] WARN [Producer clientId=producer-1] Received unknown topic or partition error in produce request on partition test-11. The topic/partition may not exist or the user may not have Describe access to it (org.apache.kafka.clients.producer.internals.Sender)<br>org.apache.kafka.common.errors.UnknownTopicOrPartitionException: This server does not host this topic-partition.<br>[2019-11-19 15:49:01,030] WARN [Producer clientId=producer-1] Received unknown topic or partition error in produce request on partition test-16. The topic/partition may not exist or the user may not have Describe access to it (org.apache.kafka.clients.producer.internals.Sender)<br>org.apache.kafka.common.errors.NotLeaderForPartitionException: This server is not the leader for that topic-partition.<br>result：数据丢失</p>
+<h3 id="case1-producer1"><a href="#case1-producer1" class="headerlink" title="case1-producer1:"></a>case1-producer1:</h3><p>数据少量丢失</p>
+<h3 id="case2-producer0，case2-producer1"><a href="#case2-producer0，case2-producer1" class="headerlink" title="case2-producer0，case2-producer1:"></a>case2-producer0，case2-producer1:</h3><p>需要重启producer,才能往新partition写数据</p>
+<h3 id="case3-producer0"><a href="#case3-producer0" class="headerlink" title="case3-producer0:"></a>case3-producer0:</h3><p>[2019-11-20 15:16:11,922] WARN [Producer clientId=producer-1] Got error produce response with correlation id 11898 on topic-partition test-12, retrying (4 attempts left). Error: NOT_LEADER_FOR_PARTITION (org.apache.kafka.clients.producer.internals.Sender)<br>[2019-11-20 15:16:12,234] WARN [Producer clientId=producer-1] Connection to node 1001 could not be established. Broker may not be available. (org.apache.kafka.clients.NetworkClient)<br>丢失数据</p>
+<h3 id="case3-producer1"><a href="#case3-producer1" class="headerlink" title="case3-producer1:"></a>case3-producer1:</h3><p>丢失少量数据</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>尽力避免导致分区重分配的操作，暂停producer进行操作</p>
+<h2 id="kafka-工具应用"><a href="#kafka-工具应用" class="headerlink" title="kafka 工具应用"></a>kafka 工具应用</h2><h3 id="分区重新分布，可用于增加、减少副本数，重新均衡分区分布；慎用，会导致producer丢失数据"><a href="#分区重新分布，可用于增加、减少副本数，重新均衡分区分布；慎用，会导致producer丢失数据" class="headerlink" title="分区重新分布，可用于增加、减少副本数，重新均衡分区分布；慎用，会导致producer丢失数据"></a>分区重新分布，可用于增加、减少副本数，重新均衡分区分布；慎用，会导致producer丢失数据</h3><p>bin/kafka-reassign-partitions.sh –zookeeper 10.31.33.29:2181 –reassignment-json-file rap.json –execute<br>{“version”:1,<br>“partitions”:[{“topic”:”test”,”partition”:0,”replicas”:[0,1,2]}]}</p>
+<h3 id="触发leader选举"><a href="#触发leader选举" class="headerlink" title="触发leader选举"></a>触发leader选举</h3><p>bin/kafka-preferred-replica-election.sh –zookeeper 10.31.33.29:2181 –path-to-json-file ./pre.json<br>{<br> “partitions”:<br>  [<br>    {“topic”: “test”, “partition”: 0}<br>  ]<br>}</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 大数据 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> java </tag>
+            
+            <tag> kafka </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[记一次RESTAPI应用崩溃复盘]]></title>
       <url>/2019/11/01/%E8%AE%B0%E4%B8%80%E6%AC%A1RESTAPI%E5%BA%94%E7%94%A8%E5%B4%A9%E6%BA%83%E5%A4%8D%E7%9B%98/</url>
       <content type="html"><![CDATA[<p>记一次RESTAPI应用崩溃复盘，第一次写博，没有代码样例，没有日志截图，全凭想象。<br>同一个世界，不同的场景，本文仅代表个人经验。</p>
