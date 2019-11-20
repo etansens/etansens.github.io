@@ -90,6 +90,13 @@
 
 <h1 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h1><p><a href="https://blog.csdn.net/sinat_37781304/article/details/82729029" target="_blank" rel="noopener">教程</a><br><a href="https://github.com/hexojs/hexo" target="_blank" rel="noopener">官方</a><br><a href="https://github.com/codefine/hexo-theme-mellow" target="_blank" rel="noopener">主题</a></p>
 <a id="more"></a>
+<h3 id="新建文章"><a href="#新建文章" class="headerlink" title="新建文章"></a>新建文章</h3><p>hexo new “Kafka Producer Test”</p>
+<h3 id="生成blog并启动本地服务"><a href="#生成blog并启动本地服务" class="headerlink" title="生成blog并启动本地服务"></a>生成blog并启动本地服务</h3><p>hexo clean &amp;&amp; hexo g &amp;&amp; hexo server</p>
+<h3 id="部署到github"><a href="#部署到github" class="headerlink" title="部署到github"></a>部署到github</h3><p>hexo d</p>
+<h3 id="提交文章源代码"><a href="#提交文章源代码" class="headerlink" title="提交文章源代码"></a>提交文章源代码</h3><h4 id="hexo主目录下-gitignore添加部署相关目录"><a href="#hexo主目录下-gitignore添加部署相关目录" class="headerlink" title="hexo主目录下.gitignore添加部署相关目录"></a>hexo主目录下.gitignore添加部署相关目录</h4><p>.DS_Store<br>Thumbs.db<br>db.json<br><em>.log<br>node_modules/<br>public/<br>.deploy</em>/<br>themes/</p>
+<h4 id="提交代码"><a href="#提交代码" class="headerlink" title="提交代码"></a>提交代码</h4><p>git add . &amp;&amp; git commit -m”add new blog”</p>
+<h3 id="push文章源代码到github"><a href="#push文章源代码到github" class="headerlink" title="push文章源代码到github"></a>push文章源代码到github</h3><h4 id="关联远程仓库"><a href="#关联远程仓库" class="headerlink" title="关联远程仓库"></a>关联远程仓库</h4><p>git remote add github <a href="https://github.com/etansens/etansens.github.io.git" target="_blank" rel="noopener">https://github.com/etansens/etansens.github.io.git</a></p>
+<h4 id="push到分支"><a href="#push到分支" class="headerlink" title="push到分支"></a>push到分支</h4><p>git push github master:source</p>
 ]]></content>
       
         <categories>
