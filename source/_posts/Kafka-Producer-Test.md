@@ -20,7 +20,7 @@ num.io.threads = 16
 num.network.threads = 8
 num.replica.fetchers = 2
 mun.partitions = 30
-
+<!--more-->
 ## 测试用例
 测试服务端变动情况下生产者的运行情况及数据表现
 考察重试机制，批量模式
